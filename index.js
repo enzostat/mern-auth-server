@@ -1,12 +1,14 @@
 //require needed packages
 let cors = require('cors')
 let express = require('express');
+let morgan = require('morgan')
 
 //initiate app
 let app = express();
 
 //middleware
 app.use(cors())
+app.use(morgan('dev'))
 app.use(express.urlencoded({extended: false}))
 app.use(express.json({limit: '10mb'}))
 
