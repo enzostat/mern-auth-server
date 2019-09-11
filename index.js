@@ -2,9 +2,13 @@
 let cors = require('cors')
 let express = require('express');
 let morgan = require('morgan')
+let rowdyLogger = require('rowdy-logger')
+require('dotenv').config()
+let jwt = require('jsonwebtoken')
 
 //initiate app
 let app = express();
+let rowdyResults = rowdyLogger.begin(app)
 
 //middleware
 app.use(cors())
@@ -23,4 +27,6 @@ app.get('*', (req,res) => {
 
 
 //export
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 3000, () => {
+    rowdyResults.print()
+})
