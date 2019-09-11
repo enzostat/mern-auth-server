@@ -14,7 +14,7 @@ app.use(express.json({limit: '10mb'}))
 
 
 //controllers
-
+app.use('/auth', require('./controllers/auth'))
 
 //Routes
 app.get('*', (req,res) => {
