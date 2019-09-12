@@ -5,6 +5,7 @@ let morgan = require('morgan')
 let rowdyLogger = require('rowdy-logger')
 require('dotenv').config()
 let jwt = require('jsonwebtoken')
+let expressJWT = require('express-jwt')
 
 //initiate app
 let app = express();
@@ -18,7 +19,14 @@ app.use(express.json({limit: '10mb'}))
 
 
 //controllers
-app.use('/auth', require('./controllers/auth'))
+app.use('/auth',expressJWT({
+    secret: process.env.JWT_SECRET
+}).unless({
+    path: [
+        {url: '/auth/login', methods: ['POST']},
+        {url: '/auth/signup', methods: ['POST']}
+    ]
+}), require('./controllers/auth'))
 
 //Routes
 app.get('*', (req,res) => {
