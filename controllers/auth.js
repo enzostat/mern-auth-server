@@ -63,7 +63,15 @@ router.post('/signup', (req,res) => {
 })
 
 router.get('/current/user', (req, res) => {
-    res.send('STUB - Current User Data')
+    console.log(req.user)
+    //the user is logged in, so req.user should have data
+    if(!req.user || !req.user._id) {
+        res.status(401).send({message: 'Check configuration'})
+    }
+    //NOTE: this is the user data from the time the token was issued
+    //WARNINGL if you update the user info, those changes will not be reflected here
+    //To avoid this, reissue a token when you update user data
+    res.send({user: req.user})
 })
 
 module.exports = router;
